@@ -1,7 +1,3 @@
-#
-# Copyright (c) .NET Foundation and contributors. All rights reserved.
-# Licensed under the MIT license. See LICENSE file in the project root for full license information.
-#
 
 <#
 .SYNOPSIS
@@ -645,7 +641,7 @@ function Get-Product-Version([string]$AzureFeed, [string]$SpecificVersion, [stri
 
     # Try to get the version number, using the productVersion.txt file located next to the installer file.
     $ProductVersionTxtURLs = (Get-Product-Version-Url $AzureFeed $SpecificVersion $PackageDownloadLink -Flattened $true),
-                             (Get-Product-Version-Url $AzureFeed $SpecificVersion $PackageDownloadLink -Flattened $false)
+    (Get-Product-Version-Url $AzureFeed $SpecificVersion $PackageDownloadLink -Flattened $false)
     
     Foreach ($ProductVersionTxtURL in $ProductVersionTxtURLs) {
         Say-Verbose "Checking for the existence of $ProductVersionTxtURL"
@@ -1108,7 +1104,7 @@ function Get-Feeds-To-Use() {
     }
 
     if (-not [string]::IsNullOrEmpty($UncachedFeed)) {
-            $feeds = @($UncachedFeed)
+        $feeds = @($UncachedFeed)
     }
 
     Write-Verbose "Initialized feeds: $feeds"

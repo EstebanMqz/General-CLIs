@@ -1,13 +1,11 @@
 <#
 .SYNOPSIS
     Installs the Chocolatey package manager on Windows.
-
 .DESCRIPTION
     Automates the installation of Chocolatey using the official installer.
     Includes administrative privilege checks, TLS 1.2 enforcement, 
     execution policy scoping, PATH refresh, and post-install verification.
-    Skips the "already installed" check and re-runs the installer (useful for repairs).
-    
+    Skips the "already installed" check and re-runs the installer (useful for repairs).   
 .NOTES
     Author  : EstebanMqz
     License : Apache-2.0

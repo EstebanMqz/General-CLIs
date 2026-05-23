@@ -1,12 +1,10 @@
 <#
 .SYNOPSIS
     Installs Neovim on Windows.
-
 .DESCRIPTION
     Automates the installation of Neovim includes administrative privilege checks, automated cleanup of old versions,
     extraction to a standard directory (C:\Neovim), and system-wide PATH updates
     to allow 'nvim' command usage from any terminal. The script also handles progress suppression for faster downloads and ensures a clean installation.
-
 .NOTES
     Author  : EstebanMqz
     License : Apache-2.0
@@ -28,7 +26,6 @@ $neovimUrl = "https://github.com/neovim/neovim/releases/latest/download/nvim-win
 $downloadPath = "$env:TEMP\nvim-win64.zip"
 $extractPath = "C:\Neovim"
 $binPath = "$extractPath\nvim-win64\bin"
-
 Write-Host "Downloading Neovim..." -ForegroundColor Cyan
 $oldProgress = $ProgressPreference
 $ProgressPreference = 'SilentlyContinue'
@@ -53,8 +50,8 @@ Expand-Archive -Path $downloadPath -DestinationPath $extractPath -Force
 
 # 4. Add Neovim to System PATH
 $path = [Environment]::GetEnvironmentVariable("Path", "Machine")
-if ($path -notlike "*$binPath*") {
-    $newPath = "$path;$binPath"
+if (($path -split ';' | ForEach-Object { $_.TrimEnd('\') }) -notcontains $binPath.TrimEnd('\')) {
+    $newPath = $path.TrimEnd(';') + ";$binPath"
     [Environment]::SetEnvironmentVariable("Path", $newPath, "Machine")
     Write-Host "SUCCESS: Added Neovim to system PATH." -ForegroundColor Green
     Write-Host "Please restart your terminal (or run 'refreshenv') to use 'nvim'." -ForegroundColor Yellow
