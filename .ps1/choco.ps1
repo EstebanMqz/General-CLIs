@@ -12,7 +12,7 @@
     Source  : https://github.com/EstebanMqz/CLIs-Automatic-Installations-Azure-Neovim-Docker-/blob/main/.ps1/choco.ps1
 #>
 
-#requires -RunAsAdministrator
+
 # Self-elevate to Administrator if not already elevated
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Write-Host "Elevation required for Chocolatey installation. Requesting UAC..." -ForegroundColor Yellow
@@ -29,7 +29,7 @@ param(
 
 # --- Configuration & Constants ---
 $ChocoInstallUrl = "https://community.chocolatey.org/install.ps1"
-$TempProgressPreference = $ProgressPreference
+
 
 try {
     # 1. Pre-flight: Check if Chocolatey is already installed
@@ -39,8 +39,7 @@ try {
         exit 0
     }
 
-    # 2. Suppress progress bar for faster web requests (known PowerShell optimization)
-    $ProgressPreference = 'SilentlyContinue'
+    Write-Host "Chocolatey not found or force flag set. Proceeding with installation..." -ForegroundColor Yellow
 
     # 3. Enforce TLS 1.2 (required by Chocolatey's CDN)
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -66,13 +65,13 @@ try {
     else {
         throw "Installation completed but 'choco' command not found in PATH."
     }
+    
+    # Hold window open to show results
+    Write-Host "`nPress any key to exit..." -ForegroundColor Gray
+    $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") | Out-Null
 }
 catch {
-    Write-Host "`n❌ Failed to install Chocolatey: $_" -ForegroundColor Red
-    Write-Host "   Please ensure you have internet access and run this script as Administrator."
-    exit 1
+    Write-Host "`n❌ Chocolatey installation failed: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "Press any key to exit..." -ForegroundColor Gray   
 }
-finally {
-    # Restore original progress preference
-    $ProgressPreference = $TempProgressPreference
-}
+

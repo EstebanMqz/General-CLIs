@@ -106,4 +106,4 @@ finally {
     $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") | Out-Null
 }
 
-#Run by .\Azure.ps1 --Force to remove all Az modules and submodules and perform a clean installation of the latest versions and dependendencies. This is useful to resolve issues with corrupted installations, version conflicts.
+#Run by .\Azure.ps1 --Force to remove all Az modules and submodules and perform a clean installation of the latest versions and dependendencies. This is useful to resolve issues with corrupted installations & version conflicts.
